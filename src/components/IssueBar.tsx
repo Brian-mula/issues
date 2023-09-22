@@ -1,6 +1,7 @@
+import DropDown from './dropdown'
 import Rounded from './rounded'
 
-export default function IssueBar({totalIssues}:{totalIssues:number}) {
+export default function IssueBar({totalIssues,onFilter}:{totalIssues:number,onFilter:Function}) {
   return (
     <div className="bg-gray-600 flex justify-between items-center px-3 py-4 rounded-md">
           {/* number of issues section */}
@@ -10,7 +11,7 @@ export default function IssueBar({totalIssues}:{totalIssues:number}) {
             <p>{totalIssues} Open</p>
           </div>
           <div className="flex items-center">
-            <p className="px-2">Author</p>
+            <DropDown title='Author' onFilter={onFilter} />
             <p>Label</p>
             <p className="px-2">Projects</p>
             <p>Milestones</p>
