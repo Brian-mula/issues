@@ -2,14 +2,19 @@
 
 import IssuDisplay from "@/components/IssuDisplay";
 import IssueBar from "@/components/IssueBar";
+import NoItemsFound from "@/components/empty";
 import IssuesList from "@/components/issuesList";
 import Loader from "@/components/loader";
+import OnError from "@/components/onerror";
 import { GitHubIssueType } from "@/types/issueType";
 import { Octokit } from "@octokit/core";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useEffect, useReducer } from "react";
 
 const initialState = {
   issues: [] as GitHubIssueType[],
+  memberIssues: [] as GitHubIssueType[],
   status: 'loading',
 }
 
@@ -26,6 +31,12 @@ const reducer = (state:any, action:any) => {
         ...state,
         status:'error'
       }
+    case "author":
+      return{
+        ...state,
+        memberIssues: action.payload,
+        status:'searching'
+      }
     default:
       return state
   }
@@ -33,7 +44,7 @@ const reducer = (state:any, action:any) => {
 
 export default function Home() {
 
-  const [{issues,status},dispatch]=useReducer(reducer,initialState)
+  const [{issues,memberIssues,status},dispatch]=useReducer(reducer,initialState)
 
   useEffect(() => {
     const octokit = new Octokit({
@@ -45,20 +56,49 @@ export default function Home() {
       },
       owner: 'Taquana-LTD',
       repo: 'nganya-apis',
+      per_page: 100,
     }).then((res) => dispatch({type:'issuesReceived',payload:res.data})).catch((err) => dispatch({type:'err'}))
   },[])
-  const totalIssues = issues.length;
-  console.log(issues);
-  return (
-    <div className={`p-20 ${totalIssues < 10 ? 'h-screen' : 'h-content'}`}>
-      {status==='loading' && <Loader/>}
-      {
-        status==='ready' && <IssuesList>
-        <IssueBar totalIssues={totalIssues} />
-        {issues.map((issue:GitHubIssueType) => <IssuDisplay issue={issue}  key={issue.id} />)}
-        </IssuesList>
-      }
+  // const totalIssues = issues.length;
+  // console.log(issues);
+  const openIssues = issues.filter((issue:GitHubIssueType) => issue.state === "open")
+  const totalIssues = openIssues.length;
+  const filteredIssues = memberIssues.length
+  const brianIssues = (name:string)=> {
+    
+    const issu= issues.filter((issue:GitHubIssueType) => issue.assignee?.login === name)
+    dispatch({type:'author',payload:issu})
+  }
+  
+  const {data,status:level} = useSession()
+  const router = useRouter()
+  if(level==='unauthenticated') {
+    router.push('/authentication/login')
+  }else{
+    return (
+      
+        <div className={`p-20 ${totalIssues  < 10 || filteredIssues < 10 ? 'h-screen' : 'h-content'}`}>
+        {status==='loading' && <Loader/>}
+        {status==='error' && <OnError/>}
+        {
+          status==='ready' && <IssuesList>
+          <IssueBar totalIssues={totalIssues} onFilter={brianIssues} />
+          {issues.map((issue:GitHubIssueType) => <IssuDisplay issue={issue}  key={issue.id} />)}
+          </IssuesList>
+        }
+        
+         {
+          status==='searching' && <IssuesList>
+          <IssueBar totalIssues={filteredIssues} onFilter={brianIssues} />
+          {memberIssues.length === 0 && <NoItemsFound/>}
+          {memberIssues.map((issue:GitHubIssueType) => <IssuDisplay issue={issue}  key={issue.id} />)}
+          </IssuesList>
+        }
+       
+      </div>
      
-    </div>
-  );
+     );
+  }
+
+  
 }
