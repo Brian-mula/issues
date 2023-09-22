@@ -29,7 +29,7 @@ export interface GitHubIssueType {
 interface AssigneType{
     login: string;
     id: number;
-    avater_url: string;
+    avatar_url: string;
 }
 
 interface LabelType{
