@@ -1,22 +1,23 @@
 import { GitHubIssueType } from "@/types/issueType";
+import { months } from "@/types/months";
 import Image from "next/image";
 import Link from "next/link";
 import Rounded from "./rounded";
 
-const months = [
-  "Jan",
-  "Feb",
-  "Mar",
-  "April",
-  "May",
-  "June",
-  "July ",
-  "Aug",
-  "Sept",
-  "Oct",
-  "Nov",
-  "Dec",
-];
+// const months = [
+//   "Jan",
+//   "Feb",
+//   "Mar",
+//   "April",
+//   "May",
+//   "June",
+//   "July ",
+//   "Aug",
+//   "Sept",
+//   "Oct",
+//   "Nov",
+//   "Dec",
+// ];
 
 
 export default function IssuDisplay({ issue }: { issue: GitHubIssueType }) {
