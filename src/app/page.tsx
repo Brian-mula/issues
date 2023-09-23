@@ -6,6 +6,7 @@ import NoItemsFound from "@/components/empty";
 import IssuesList from "@/components/issuesList";
 import Loader from "@/components/loader";
 import OnError from "@/components/onerror";
+import TopNavSection from "@/components/topNav";
 import { GitHubIssueType } from "@/types/issueType";
 import { Octokit } from "@octokit/core";
 import { useSession } from "next-auth/react";
@@ -77,14 +78,18 @@ export default function Home() {
   }else{
     return (
       
-        <div className={`p-20 ${totalIssues  < 10 || filteredIssues < 10 ? 'h-screen' : 'h-content'}`}>
+        <div className={`px-20 pt-5 pb-20 max-h-fit ${filteredIssues < 10 ? 'h-[calc(100vh-4rem)]':''}`}>
         {status==='loading' && <Loader/>}
         {status==='error' && <OnError/>}
         {
-          status==='ready' && <IssuesList>
+          status==='ready' && <>
+          <TopNavSection/>
+          <IssuesList>
+            
           <IssueBar totalIssues={totalIssues} onFilter={brianIssues} />
           {issues.map((issue:GitHubIssueType) => <IssuDisplay issue={issue}  key={issue.id} />)}
           </IssuesList>
+          </>
         }
         
          {
