@@ -26,7 +26,7 @@ export default function IssuDisplay({ issue }: { issue: GitHubIssueType }) {
   const day = date.getDay();
 
   return (
-    <div  className="bg-gray-700 px-3 py-4 flex items-center justify-between border border-t border-gray-300 hover:bg-gray-600">
+    <div  className="bg-gray-700 px-3 py-4 flex items-center justify-between border border-t border-gray-400 hover:bg-gray-600">
       <div className="flex items-start">
         <input type="checkbox" />
         <Rounded />
