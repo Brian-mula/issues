@@ -112,7 +112,7 @@ export default function Home() {
   } else {
     return (
       <div
-        className={`px-20 pt-5 pb-20 bg-gray-700 h-fit w-full min-h-screen`}
+        className={`px-2 md:px-20 pt-5 pb-20 bg-gray-700 h-fit w-full min-h-screen`}
       >
         {status === "loading" && [1,2,3,4,5].map((n) => <SkeletonArticle key={n} />)}
         {status === "error" && <OnError />}
