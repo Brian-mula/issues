@@ -1,6 +1,7 @@
 "use client"
 
 import { signOut, useSession } from "next-auth/react"
+import Link from "next/link"
 
 export default function Navbar() {
     const {data,status}= useSession()
@@ -10,7 +11,7 @@ export default function Navbar() {
         status==='authenticated' &&
         <div className="navbar bg-gray-600">
         <div className="flex-1">
-          <a className="btn btn-ghost normal-case text-xl">IBUQA ISSUES</a>
+          <Link href={`/`} className="btn btn-ghost text-xl uppercase">Gitub ISSUE manager</Link>
         </div>
         <div className="flex-none">
           <div className="flex items-center">
