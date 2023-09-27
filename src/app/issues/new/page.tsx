@@ -65,6 +65,7 @@ export default function NewIssue() {
   const router = useRouter();
   if (level === "unauthenticated") {
     router.push("/authentication/login");
+    return
   }
   return (
     <div className="h-[calc(100vh-4rem)] min-h-screen pt-4 px-20 bg-slate-900">
