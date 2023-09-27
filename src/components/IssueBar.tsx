@@ -1,21 +1,23 @@
+import AssigneeDropdown from './assignee_dropdown'
 import DropDown from './dropdown'
+import LabelDropdown from './labels_dropdown'
 import Rounded from './rounded'
 
 export default function IssueBar({totalIssues,onFilter}:{totalIssues:number,onFilter:Function}) {
   return (
-    <div className="bg-gray-600 flex justify-between items-center px-3 py-4 rounded-md">
+    <div className="bg-gray-600 block md:flex md:justify-between md:items-center px-3 py-4 rounded-md">
           {/* number of issues section */}
           <div className="flex items-center">
             <input type="checkbox" />
             <Rounded />
-            <p>{totalIssues} Open</p>
+            <p className=''>{totalIssues} Open</p>
           </div>
           <div className="flex items-center">
             <DropDown title='Author' onFilter={onFilter} />
-            <p>Label</p>
+            <LabelDropdown title='Labels' />
             <p className="px-2">Projects</p>
             <p>Milestones</p>
-            <p className="px-2">Assignee</p>
+            <AssigneeDropdown title='Assignee' onFilter={onFilter} />
             <p>Sort</p>
 
           </div>
