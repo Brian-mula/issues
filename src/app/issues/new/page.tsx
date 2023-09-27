@@ -1,4 +1,10 @@
 'use client';
+import IssueAssignees from "@/components/issue_assinees";
+import IssueLabels from "@/components/issue_labels";
+import IssueMileStones from "@/components/issue_milestone";
+import IssueProjects from "@/components/issue_projects";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { Octokit } from "octokit";
 import { useState } from "react";
 
@@ -11,8 +17,8 @@ const tabs = ["Write", "Preview"];
 export default function NewIssue() {
   const [title, setTitle] = useState("");
   const[content,setcontent]=useState("")
-  const[labels,setLabels]=useState([])
-  const[assignees,setAssignees]=useState([])
+  const[labels,setLabels]=useState<string[]>([])
+  const[assignees,setAssignees]=useState<string[]>([])
   const[milestone,setMilestone]=useState(1)
   const[project,setProject]=useState(0)
   const[status,setStatus]=useState("open")
@@ -36,6 +42,7 @@ export default function NewIssue() {
         authorization: `token ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`
       }
     })
+    useRouter().push('/')
     console.log(title)
   } catch (error:any) {
     console.log(error.message)
@@ -43,12 +50,24 @@ export default function NewIssue() {
     
   }
 
+  const handleAssignees=(name:string)=>{
+    setAssignees((val)=>[...val,name])
+  }
+  const handleLabels=(name:string)=>{
+    setLabels((val)=>[...val,name])
+  }
+
   
   const [activeTab, setActiveTab] = useState(0);
+  const { data, status: level } = useSession();
+  const router = useRouter();
+  if (level === "unauthenticated") {
+    router.push("/authentication/login");
+  }
   return (
-    <div className="h-[calc(100vh-4rem)] mt-4 px-20">
-      <div className="flex items-start">
-        <form onSubmit={handleNewIssue} className="w-2/3 bg-gray-500 border border-gray-300 rounded-md p-3">
+    <div className="h-[calc(100vh-4rem)] min-h-screen pt-4 px-20 bg-slate-900">
+      <div className="block md:flex md:items-start">
+        <form onSubmit={handleNewIssue} className="w-full md:w-2/3 bg-gray-500 border border-gray-300 rounded-md p-3">
         
           <input
           value={title}
@@ -89,6 +108,24 @@ export default function NewIssue() {
          </div>
         
         </form>
+        <div className="w-96 px-3">
+          <div className="border-b border-gray-500 w-full py-2">
+          <IssueAssignees onAssignee ={handleAssignees} />
+          <p>{assignees.length ===0 ? `None yet`: `${assignees}`} </p>
+          </div>
+          <div className="border-b border-gray-500 w-full py-2">
+          <IssueLabels onAssignLabel={handleLabels} />
+          <p>{labels.length ===0 ? `None yet`: `${labels}`} </p>
+          </div>
+          <div className="border-b border-gray-500 w-full py-2">
+          <IssueProjects/>
+          <p>{project ? `${project}`: `No project`} </p>
+          </div>
+          <div className="border-b border-gray-500 w-full py-2">
+          <IssueMileStones/>
+          <p>{milestone ? `${milestone}`: `No milestone`} </p>
+          </div>
+        </div>
       </div>
     </div>
   );
