@@ -134,7 +134,7 @@ export default function IssueDetails() {
       {status === "loading" && [1,2,3,4,5].map((n) => <SkeletonArticle key={n}/>)}
       {status === "error" && <OnError />}
       {status === "ready" && (
-        <div className="min-h-screen px-20 bg-gray-800 ">
+        <div className="min-h-screen px-2 lg:px-20 bg-gray-800 ">
           {isActive && (
             <div className=" flex pt-4">
               <div className="w-2/3">
