@@ -10,8 +10,9 @@ import Rounded from "@/components/rounded";
 import SkeletonArticle from "@/skeletons/SkeletonIssue";
 import { GitHubIssueType } from "@/types/issueType";
 import { months } from "@/types/months";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Octokit } from "octokit";
 import { useEffect, useReducer, useState } from "react";
 
@@ -120,6 +121,12 @@ export default function IssueDetails() {
     })
     setIsActive((val) => !val);
     console.log('done')
+  }
+  const { data, status: level } = useSession();
+  const router = useRouter();
+  if (level === "unauthenticated") {
+    router.push("/authentication/login");
+    return
   }
 
   return (
