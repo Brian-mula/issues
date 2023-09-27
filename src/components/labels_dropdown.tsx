@@ -55,7 +55,7 @@ export default function LabelDropdown({ title }: { title: string }) {
     <div>
       {status === "loading" && <p>Loading...</p>}
       {status === "ready" && (
-        <div className="dropdown dropdown-bottom dropdown-end">
+        <div className="dropdown dropdown-bottom ">
           <label tabIndex={0} className="m-1 cursor-pointer">
             {title}
           </label>
