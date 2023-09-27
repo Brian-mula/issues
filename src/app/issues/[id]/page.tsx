@@ -194,7 +194,7 @@ export default function IssueDetails() {
                   <Link
                     href={`/issues/new`}
                     
-                    className="bg-green-600 px-3 py-2 rounded-md text-gray-300 hover:bg-green-500 ml-3"
+                    className="bg-green-600 px-3 py-2 text-xs lg:text-sm rounded-md text-gray-300 hover:bg-green-500 ml-3"
                   >
                     New Issue
                   </Link>
