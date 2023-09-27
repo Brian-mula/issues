@@ -55,7 +55,7 @@ export default function DropDown({ title,onFilter }: { title: string,onFilter:Fu
   return (
     <div>
       {status === "ready" && (
-        <div className="dropdown dropdown-bottom dropdown-end">
+        <div className="dropdown dropdown-bottom ">
           <label tabIndex={0} className="m-1 cursor-pointer">{title}</label>
           <ul tabIndex={0} className="p-2 shadow menu dropdown-content z-[1] bg-gray-600 rounded-sm w-64 h-96 overflow-y-auto block">
             {
