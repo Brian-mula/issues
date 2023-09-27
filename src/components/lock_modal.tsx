@@ -44,6 +44,7 @@ export default function LockModal({issue}:{issue:GitHubIssueType}) {
       }
     })
     closeModal()
+    console.log(reason)
 
   }
   const handleUnlockIssue = async() => {
@@ -56,6 +57,7 @@ export default function LockModal({issue}:{issue:GitHubIssueType}) {
       }
     })
     closeModal()
+    console.log('unlocked')
   }
 
   return (
