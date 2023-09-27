@@ -1,6 +1,9 @@
 import { GitHubIssueType } from "@/types/issueType";
 import { Octokit } from "octokit";
+
 import { useRef, useState } from "react";
+
+type PostStatus = "off-topic"| "too heated" | "spam" | "resolved" | "Choose Topic";
 
 const reasons = [
   'Choose Topic',
@@ -30,11 +33,12 @@ export default function LockModal({issue}:{issue:GitHubIssueType}) {
   const [selectedReason, setSelectedReason] = useState(reasons[0])
   const handleLockIssue = async() => {
     if(selectedReason === reasons[0]) return
+    const reason = selectedReason === reasons[1] ? 'off-topic' : selectedReason === reasons[2] ? 'too heated' : selectedReason === reasons[3] ? 'spam' : 'resolved'
     await octokit.request('PUT /repos/{owner}/{repo}/issues/{issue_number}/lock', {
       owner: "Taquana-LTD",
       repo: "nganya-apis",
       issue_number: issue.number,
-      lock_reason: selectedReason,
+      lock_reason: reason,
       headers: {
         'X-GitHub-Api-Version': '2022-11-28'
       }
