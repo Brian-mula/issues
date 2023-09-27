@@ -23,6 +23,8 @@ export default function NewIssue() {
   const[project,setProject]=useState(0)
   const[status,setStatus]=useState("open")
 
+  const route = useRouter();
+
   const handleNewIssue=async(e:any)=>{
     e.preventDefault()
     if(!title){
@@ -42,7 +44,7 @@ export default function NewIssue() {
         authorization: `token ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`
       }
     })
-    useRouter().push('/')
+    route.push('/')
     console.log(title)
   } catch (error:any) {
     console.log(error.message)
