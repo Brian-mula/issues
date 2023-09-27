@@ -68,7 +68,7 @@ export default function NewIssue() {
     return
   }
   return (
-    <div className="h-[calc(100vh-4rem)] min-h-screen pt-4 px-20 bg-slate-900">
+    <div className="h-[calc(100vh-4rem)] min-h-screen pt-4 px-2 lg:px-20 bg-slate-900">
       <div className="block md:flex md:items-start">
         <form onSubmit={handleNewIssue} className="w-full md:w-2/3 bg-gray-500 border border-gray-300 rounded-md p-3">
         
