@@ -11,7 +11,7 @@ export default function Navbar() {
         status==='authenticated' &&
         <div className="navbar bg-gray-600">
         <div className="flex-1">
-          <Link href={`/`} className="btn btn-ghost text-xl uppercase">Gitub ISSUE manager</Link>
+          <Link href={`/`} className="btn btn-ghost text-xl uppercase">Github ISSUE manager</Link>
         </div>
         <div className="flex-none">
           <div className="flex items-center">
